@@ -50,15 +50,10 @@ ynh_backup "/etc/transmission-daemon/settings.json"
 #=================================================
 
 ynh_backup "/usr/share/transmission"
-
 ynh_backup "/var/lib/transmission-daemon"
 
-backup_core_only=$(ynh_app_setting_get $app backup_core_only)
-# If backup_core_only have a value in settings.yml, do not backup the data directory
-if [ -z $backup_core_only ]
-then
-	CHECK_SIZE "/home/yunohost.transmission"
-	ynh_backup "/home/yunohost.transmission"
-else
-	echo "Data dir will not saved, because backup_core_only is set." >&2
-fi
+# The "--is big" parameter indicates that the file/directory requires "a lot of disk space"
+# It won't be backed up before 'upgrade' or while doing a 'backup' with:
+# "sudo BACKUP_CORE_ONLY=1 yunohost backup create --apps transmission"
+# See https://yunohost.org/#/backup
+ynh_backup --src_path="/home/yunohost.transmission" --is_big

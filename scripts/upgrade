@@ -40,8 +40,6 @@ yunohost firewall allow UDP $peer_port >/dev/null 2>&1
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
 
-# Inform the backup/restore process that it should not save the data directory
-ynh_app_setting_set $app backup_core_only 1
 ynh_backup_before_upgrade	# Backup the current version of the app
 ynh_clean_setup () {
 	ynh_restore_upgradebackup	# restore it if the upgrade fails
@@ -155,4 +153,16 @@ systemctl reload nginx
 # REMOVE BACKUP_CORE_ONLY
 #=================================================
 
+backup_core_only=$(ynh_app_setting_get $app backup_core_only)
+# If "backup_core_only" is still set in settings.yml, print a warning and run the upgrade as usual.
+# Setting is deleted at the end of the script to avoid side effect ("ynh_backup_before_upgrade" maybe).
+if [ "$backup_core_only" == "1" ]
+then
+	ynh_print_info --message="Setting 'backup_core_only' is deprecated and cannot be used anymore"
+	ynh_print_info --message="Modify your backup script accordingly or next backup will be huge. See https://github.com/YunoHost/doc/blob/master/backup.md#apps-specific-configuration"
+fi
+
+# Remove deprecated option "backup_core_only" if it's in the settings.yml file.
+# Replaced by "environement variable" => sudo BACKUP_CORE_ONLY=1 yunohost backup create [...]
+# See https://yunohost.org/#/backup.
 ynh_app_setting_delete $app backup_core_only
