@@ -3,39 +3,25 @@
 [![Niveau d'intégration](https://dash.yunohost.org/integration/transmission.svg)](https://dash.yunohost.org/appci/app/transmission) ![](https://ci-apps.yunohost.org/ci/badges/transmission.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/transmission.maintain.svg)  
 [![Installer Transmission avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=transmission)
 
-*[Read this readme in english.](./README.md)* 
+*[Read this readme in english.](./README.md)*
+*[Lire ce readme en français.](./README_fr.md)*
 
-> *Ce package vous permet d'installer Transmission rapidement et simplement sur un serveur YunoHost.  
-Si vous n'avez pas YunoHost, consultez [le guide](https://yunohost.org/#/install) pour apprendre comment l'installer.*
+> *Ce package vous permet d'installer Transmission rapidement et simplement sur un serveur YunoHost.
+Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
 
 ## Vue d'ensemble
 
-Transmission est un client BitTorrent libre, efficace et simple.
+Un client BitTorrent libre et rapide
 
-**Version incluse :** 2.94-2 (La version du dépôt de Debian)
+**Version incluse :** 2.94-2~ynh1
+
+**Démo :** https://demo.example.com
 
 ## Captures d'écran
-![](transmission.jpg)
 
-## Configuration
+![](./doc/screenshots/transmission.jpg)
 
-## Documentation
-
- * Documentation officielle : https://github.com/transmission/transmission/wiki
- * Documentation YunoHost : https://yunohost.org/fr/app_transmission
-
-## Caractéristiques spécifiques YunoHost
-
- * Intégration avec les répertoires Multimédias de YunoHost
-
-#### Support multi-utilisateur
-
-#### Architectures supportées
-
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/transmission.svg)](https://ci-apps.yunohost.org/ci/apps/transmission/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/transmission.svg)](https://ci-apps-arm.yunohost.org/ci/apps/transmission/)
-
-## Limitations
+## Avertissements / informations importantes
 
 ## Informations additionnelles
 Alternative à WebUI :
@@ -55,13 +41,14 @@ Vous pouvez utiliser les informations suivantes pour vous connecter à votre ser
 * Mot de passe : Le mot de passe de l'utilisateur YunoHost utilisé
 * Répertoire RPC : `/torrent/transmission/rpc` (si vous utilisez le répertoire par défaut)
 
-## Liens
- * Signaler un bug : https://github.com/YunoHost-Apps/transmission_ynh/issues
- * Site de Transmission : https://transmissionbt.com/
- * Dépôt de Transmission : https://github.com/transmission/transmission
- * Site de YunoHost : https://yunohost.org/
+## Documentations et ressources
 
----
+* Site officiel de l'app : https://www.transmissionbt.com/
+* Documentation officielle utilisateur : https://yunohost.org/en/app_transmission
+* Documentation officielle de l'admin : https://github.com/transmission/transmission/wiki
+* Dépôt de code officiel de l'app : https://github.com/transmission/transmission
+* Documentation YunoHost pour cette app : https://yunohost.org/app_transmission
+* Signaler un bug : https://github.com/YunoHost-Apps/transmission_ynh/issues
 
 ## Informations pour les développeurs
 
@@ -73,3 +60,5 @@ sudo yunohost app install https://github.com/YunoHost-Apps/transmission_ynh/tree
 ou
 sudo yunohost app upgrade transmission -u https://github.com/YunoHost-Apps/transmission_ynh/tree/testing --debug
 ```
+
+**Plus d'infos sur le packaging d'applications :** https://yunohost.org/packaging_apps

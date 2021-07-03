@@ -24,6 +24,7 @@ ynh_print_info --message="Loading installation settings..."
 app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get --app=$app --key=domain)
+datadir=$(ynh_app_setting_get --app=$app --key=datadir)
 
 #=================================================
 # DECLARE DATA AND CONF FILES TO BACKUP
@@ -55,7 +56,7 @@ fi
 ynh_backup --src_path="/usr/share/transmission"
 ynh_backup --src_path="/var/lib/transmission-daemon"
 
-ynh_backup --src_path="/home/yunohost.transmission" --is_big
+ynh_backup --src_path="$datadir" --is_big
 
 #=================================================
 # END OF SCRIPT

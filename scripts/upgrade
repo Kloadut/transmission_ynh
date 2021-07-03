@@ -20,6 +20,7 @@ domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 port=$(ynh_app_setting_get --app=$app --key=port)
 peer_port=$(ynh_app_setting_get --app=$app --key=peer_port)
+datadir=$(ynh_app_setting_get --app=$app --key=datadir)
 
 #=================================================
 # CHECK VERSION
@@ -44,6 +45,12 @@ fi
 
 # Add peer_port also on UDP.
 ynh_exec_warn_less yunohost firewall allow UDP $peer_port
+
+if [ -z "$datadir" ]; then
+	datadir=/home/yunohost.app/$app
+	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
+	cp -a "/home/yunohost.transmission" "$datadir"
+fi
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -90,16 +97,14 @@ ynh_install_app_dependencies $pkg_dependencies
 # CREATE DIRECTORIES
 #=================================================
 
-mkdir -p /home/yunohost.transmission/{progress,completed,watched}
+datadir=/home/yunohost.app/$app
 
-#=================================================
-# SECURING FILES AND DIRECTORIES
-#=================================================
+mkdir -p $datadir/{progress,completed,watched}
 
-chown -R debian-transmission:www-data /home/yunohost.transmission/
-chown -R debian-transmission: /home/yunohost.transmission/{progress,watched}
-chmod -R 764 /home/yunohost.transmission
-chmod -R 777 /home/yunohost.transmission/watched
+chown -R debian-transmission:www-data $datadir
+chown -R debian-transmission: $datadir/{progress,watched}
+chmod -R 764 $datadir
+chmod -R 770 $datadir/watched
 
 #=================================================
 # CONFIGURE TRANSMISSION
@@ -154,11 +159,11 @@ ynh_script_progression --message="Adding multimedia directories..." --weight=3
 
 ynh_multimedia_build_main_dir
 # Set rights on transmission directory (parent need to be readable by other, and progress need to be writable by multimedia. Because files will move)
-ynh_multimedia_addfolder --source_dir="/home/yunohost.transmission" --dest_dir="share/Torrents"
+ynh_multimedia_addfolder --source_dir="$datadir" --dest_dir="share/Torrents"
 # And share completed directory
-ynh_multimedia_addfolder --source_dir="/home/yunohost.transmission/completed" --dest_dir="share/Torrents"
+ynh_multimedia_addfolder --source_dir="$datadir/completed" --dest_dir="share/Torrents"
 # Share also watched directory, to allow to use it easily
-ynh_multimedia_addfolder --source_dir="/home/yunohost.transmission/watched" --dest_dir="share/Torrent to download"
+ynh_multimedia_addfolder --source_dir="$datadir/watched" --dest_dir="share/Torrent to download"
 
 #=================================================
 # PATCH SOURCE TO ADD A DOWNLOAD BUTTON
